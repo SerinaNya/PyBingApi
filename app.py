@@ -1,10 +1,14 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, render_template
 import requests
 import random
 app = Flask(__name__)
 
 BASEDOMAIN = 'https://global.bing.com'
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/bing')
 def bing():
