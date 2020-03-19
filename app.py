@@ -8,7 +8,7 @@ BASEDOMAIN = 'https://global.bing.com'
 
 @app.route('/bing')
 def bing():
-    req = requests.get(BASEDOMAIN+'/HPImageArchive.aspx?format=js&n=-1')  # 默认第二天/今天
+    req = requests.get(BASEDOMAIN+'/HPImageArchive.aspx?format=js&idx=-1&n=1')  # 默认第二天/今天
     pic_url = req.json()['images'][0]['url']
     return redirect(BASEDOMAIN+pic_url)
 
