@@ -2,11 +2,11 @@
 # # Copyright © 2020  jinzhijie
 # Open source with GPLv3 LICENSE
 
-from flask import Flask, redirect, render_template, abort
+from flask import Flask, redirect, render_template, abort, send_from_directory
 import requests
 import random
 import os
-from cacheimg import cache
+from cacheimg import cache, cached_json
 app = Flask(__name__)
 
 BASEDOMAIN = 'https://global.bing.com'
@@ -16,6 +16,12 @@ BASEDOMAIN = 'https://global.bing.com'
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+# favicon.ico
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico')
 
 
 @app.errorhandler(404)
@@ -57,6 +63,13 @@ def bing_random():
                        random.randint(-1, 7))  # -1 ~ 7天
     pic_url = req.json()['images'][0]['url']
     return redirect(BASEDOMAIN+pic_url)
+
+
+# 返回本地缓存的图片
+@app.route('/bing/cache')
+def bing_cache():
+    img_name = cache(cached_json(BASEDOMAIN), BASEDOMAIN)  # 需要在 cacheimg.py 中设置相关信息
+    return send_from_directory('caches', img_name)  # 直接返回图片，不重定向耗费时间
 
 
 if __name__ == '__main__':
