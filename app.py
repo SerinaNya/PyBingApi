@@ -6,7 +6,7 @@ from flask import Flask, redirect, render_template, abort, send_from_directory
 import requests
 import random
 import os
-from cacheimg import cache, cached_json
+from cacheimg import cache, cached_json, reload_cache
 app = Flask(__name__)
 
 BASEDOMAIN = 'https://global.bing.com'
@@ -70,6 +70,11 @@ def bing_random():
 def bing_cache():
     img_name = cache(cached_json(BASEDOMAIN), BASEDOMAIN)  # 需要在 cacheimg.py 中设置相关信息
     return send_from_directory('caches', img_name)  # 直接返回图片，不重定向耗费时间
+
+@app.route('/bing/cache/reload')
+def bing_cache_reload():
+    reload_cache()
+    return 'Cache Reloaded'
 
 
 if __name__ == '__main__':
