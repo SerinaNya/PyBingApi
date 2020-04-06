@@ -13,6 +13,7 @@ PyBingAPI 对配置的要求非常低，只要有Python就能跑。
 - 一台主机
 - Python 版本≥ 3.8
 - Python Flask
+- 一个在线率60%以上的脑子
 
 ### 部署教程
 
